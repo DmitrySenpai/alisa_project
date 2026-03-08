@@ -1,0 +1,37 @@
+<%- include("./menu/up.ejs") %>
+
+<div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Ваши сервера</h4>
+                    <div class="table-responsive">
+                      <table class="table table-striped">
+                        <tbody>
+                        <%user.guilds.forEach(guild => {%>
+                            <%if (guild.owner == true) { %>
+                          <tr>
+                            <td class="py-1">
+                                <%if (guild.icon) { %>
+                                    <img src="https://cdn.discordapp.com/icons/<%=guild.id%>/<%=guild.icon%>.png" alt="image">
+                                <% } else { %>
+                                    <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="image">
+                                <% } %>
+                            </td>
+                            <td>
+                                <%=guild.name%>
+                            </td>
+                            <td>
+                                <a href="/profile?page=myserver&id=<%=guild.id%>">Открыть</a>
+                            </td>
+                          </tr>
+                          <% } %>
+                          <% }); %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+</div>
+<%- include("./menu/down.ejs") %>

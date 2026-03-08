@@ -1,0 +1,27 @@
+{
+  "name": "extyanweb",
+  "version": "1.0.0",
+  "description": "web",
+  "main": "extyan.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amadeus",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "discord": "^0.8.2",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.6-alpha.4",
+    "express-session": "^1.16.2",
+    "fs": "0.0.1-security",
+    "hex-to-dec": "^1.0.1",
+    "html-entities": "^1.2.1",
+    "http": "0.0.0",
+    "mysql-utilities": "^1.1.0-alpha.3",
+    "mysql2": "^1.7.0",
+    "request-promise": "^4.2.4",
+    "socket.io": "^2.2.0"
+  }
+}

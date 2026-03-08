@@ -1,0 +1,127 @@
+<form method="POST">
+        <% if(req.query.status) { %>
+        <div class="row purchace-popup">
+                <div class="col-12">
+                  <span class="d-block d-md-flex align-items-center">
+                    <p><%- text_status_setting(req.query.status) %></p>
+
+                    <i class="mdi mdi-close popup-dismiss ml-auto"></i>
+                  </span>
+                </div>
+              </div>
+        <% } %>
+<div class="row">
+<div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+
+          <h4 class="card-title"><img class="img-sm rounded-circle mb-4 mb-md-0" src="<%=gulids_server_avatar(servergulids.id, servergulids.icon)%>" alt="image"> Настройки сервера - <%=servergulids.name%>
+
+            <a href="/profile?page=myserver&id=<%-req.query.id%>"><button type="button" class="btn btn-primary btn-fw float-right">Назад</button></a>
+            
+        </h4>
+
+        <h4 class="card-title">Вкл/Выкл - команды</h4>
+        <form>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Команды</h4>
+        <div class="row">
+          <div class="col-md-6">
+              <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" name="cmd_avatars" class="form-check-input" <% if (JSON.parse(server_setting.res[0].commands) !== null) { if (JSON.parse(server_setting.res[0].commands).indexOf('avatars') !== -1) { %> checked <% } } %>> a!avatas - показать аватарку пользователя
+                  <i class="input-helper"></i></label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" name="cmd_clear" class="form-check-input" <% if (JSON.parse(server_setting.res[0].commands) !== null) { if (JSON.parse(server_setting.res[0].commands).indexOf('clear') !== -1) { %> checked <% } }%>> a!clear - делает очистку сообщение
+                <i class="input-helper"></i></label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" name="cmd_warn" class="form-check-input" <% if (JSON.parse(server_setting.res[0].commands) !== null) { if (JSON.parse(server_setting.res[0].commands).indexOf('warn') !== -1) { %> checked <% } } %>> a!warn - отправить варн
+                <i class="input-helper"></i></label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" name="cmd_rep" class="form-check-input" <% if (JSON.parse(server_setting.res[0].commands) !== null) { if (JSON.parse(server_setting.res[0].commands).indexOf('rep') !== -1) { %> checked <% } } %>> a!rep - повысить репутацию
+                <i class="input-helper"></i></label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" name="cmd_i" class="form-check-input" <% if (JSON.parse(server_setting.res[0].commands) !== null) { if (JSON.parse(server_setting.res[0].commands).indexOf('i') !== -1) { %> checked <% } }%>> a!i - вывод рандомных картин
+                <i class="input-helper"></i></label>
+              </div>
+              <% if (server_setting.res[0].partner == 1) { %>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" name="cmd_msc" class="form-check-input" <% if (JSON.parse(server_setting.res[0].commands) !== null) { if (JSON.parse(server_setting.res[0].commands).indexOf('msc') !== -1) { %> checked <% } }%>> a!msc - музыка в войсе
+                <i class="input-helper"></i></label>
+              </div>
+              <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Команда a!marry</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" name="cmd_marry" class="form-check-input" <% if (JSON.parse(server_setting.res[0].commands) !== null) { if (JSON.parse(server_setting.res[0].commands).indexOf('marry') !== -1) { %> checked <% } }%>> Включить команду
+              <i class="input-helper"></i></label>
+            </div>
+            <div class="form-group">
+              <label>Выдать роль для молодоженов:</label>
+              <select class="form-control" name="marry_role">
+                  <option value="0">не выдавать</option>
+                <% role_list = discord.guilds.get(req.query.id).roles 
+                role_list.forEach(r=> { 
+                  if (r.id !== req.query.id && r.managed == false) {
+                    if(r.id == server_setting.res[0].marry_role){
+                      %>
+                      <option value="<%-r.id%>" selected><%-client.entities.encode(r.name)%></option>
+                      <%
+                    } else {
+                  %>
+                  <option value="<%-r.id%>"><%-client.entities.encode(r.name)%></option>
+                  <%
+                }}})
+                %>
+              </select>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+          <div class="row">
+            <button type="submit" class="btn btn-success mr-2">Сохранить</button>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+</form>

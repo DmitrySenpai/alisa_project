@@ -1,0 +1,293 @@
+<!-- Modal -->
+<div class="modal fade" id="PreviewEmbed" tabindex="-1" role="dialog" aria-labelledby="preview_embedLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Предварительный просмотр</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- embed discord -->
+            <div class="w-100 h-100 br2 flex flex-column white overflow-hidden bg-discord-dark">
+                <div class="w-100 h-100 overflow-auto pa2 discord-view">
+                   <div class="flex-vertical whitney theme-dark">
+                      <div class="chat flex-vertical flex-spacer">
+                         <div class="content flex-spacer flex-horizontal">
+                            <div class="flex-spacer flex-vertical messages-wrapper">
+                               <div class="scroller-wrap">
+                                  <div class="scroller messages">
+                                     <div class="message-group hide-overflow ">
+                                        <div class="avatar-large animate" style="background-image: url(./alisa.png);"></div>
+                                        <div class="comment">
+                                           <div class="message first">
+                                              <h2 style="line-height: 16px;"><span class="username-wrapper v-btm"><strong class="user-name">Alisa</strong></span><span class="highlight-separator"> - </span><span class="timestamp">Today at 6:03 PM</span></h2>
+                                              <div class="message-text" name="embed_content" id="embed_content"></div>
+                                              <div class="accessory">
+                                                 <div class="embed-wrapper">
+                                                    <div class="embed-color-pill" id="embed-color-pill" style="background-color: rgb(200, 224, 196);"></div>
+                                                    <div class="embed embed-rich">
+                                                       <div class="embed-content">
+                                                          <div class="embed-content-inner">
+                                                             <div class="embed-author"><embed-author-icon id="embed-author-icon" name="embed-author-icon"></embed-author-icon>
+                                                                <a href="#" id="embed-author-name" name="embed-author-name" class="embed-author-name"></a>
+                                                             </div>
+                                                             <div id="embed_title" name="embed_title">
+                                                                <a href="#" class="embed-title" ></a>
+                                                             </div>
+                                                             <div class="embed-description markup" id="embed_description" name="embed_description">
+                                                             
+                                                             </div>
+                                                             <div class="embed-fields" id="dynamic_field_2">
+                                                                
+                                                                <div class="embed-field" id="row1"><div class="embed-field-name" id="name_row1"></div><div class="embed-field-value markup" id="value_row1"></div></div>
+                                                                
+                                                             </div>
+                                                          </div>
+                                                          <img src="" role="presentation" id="embed-rich-thumb" name="embed-rich-thumb" class="embed-rich-thumb" style="max-width: 80px; max-height: 80px;">
+                                                       </div>
+                                                       <a class="embed-thumbnail embed-thumbnail-rich"><embed-image id="embed-image"></embed-image></a>
+                                                       <div>
+                                                         <embed-footer-icon id="embed-footer-icon"></embed-footer-icon><span class="embed-footer"><fo id="text-embed-footer"></fo> | <ti id="time-embed-footer"></ti></span>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                           </div>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <!-- END -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<form method="POST">
+        <% if(req.query.status) { %>
+        <div class="row purchace-popup">
+                <div class="col-12">
+                  <span class="d-block d-md-flex align-items-center">
+                    <p><%- text_status_setting(req.query.status) %></p>
+
+                    <i class="mdi mdi-close popup-dismiss ml-auto"></i>
+                  </span>
+                </div>
+              </div>
+        <% } %>
+
+<div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+
+          <h4 class="card-title"><img class="img-sm rounded-circle mb-4 mb-md-0" src="<%=gulids_server_avatar(servergulids.id, servergulids.icon)%>" alt="image"> Настройки сервера - <%=servergulids.name%>
+
+            <a href="/profile?page=myserver&id=<%-req.query.id%>"><button type="button" class="btn btn-primary btn-fw float-right">Назад</button></a>
+            
+        </h4>
+
+        <h4 class="card-title">Embed Generator</h4>
+        <form class="form-sample">
+            <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Канал</label>
+                    <div class="col-sm-9">
+                      <select name="channel" class="form-control">
+                        <%
+                        //selected
+                            channel_list = discord.guilds.get(req.query.id).channels.filter(ch => ch.type == 'text')
+                            channel_list.forEach(ch=> { 
+                                %>
+                                <option value="<%-ch.id%>"><%-ch.name%></option>
+                                <%
+                            })
+                        %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Content</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="setContent" id="setContent" rows="4"></textarea>
+                        </div>
+                      </div>
+                    </div>
+              </div>
+
+              Basics
+              <div class="row">
+                 <div class="col-md-6">
+                   <div class="form-group row">
+                     <label class="col-sm-3 col-form-label">Title</label>
+                     <div class="col-sm-9">
+                       <input type="text" name="setTitle" id="setTitle" class="form-control">
+                     </div>
+                   </div>
+                 </div>
+                 <div class="col-md-6">
+                     <div class="form-group row">
+                       <label class="col-sm-3 col-form-label">Color</label>
+                       <div class="col-sm-9">
+                         <input name="setColor" type="text" data-format="hex" class="form-control" id="color-picker-alias" value="#00b3ff"/>
+                       </div>
+                     </div>
+                   </div>
+
+                   <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Description</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="setDescription" id="setDescription" rows="4"></textarea>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Url</label>
+                          <div class="col-sm-9">
+                            <input type="text" name="setURL" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+               </div>
+               Author
+               <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Name</label>
+                      <div class="col-sm-9">
+                        <input type="text" id="setAuthorText" name="setAuthorText" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Icon-Url</label>
+                      <div class="col-sm-9">
+                        <input type="text" id="setAuthorIcon" name="setAuthorIcon" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group row">
+                       <label class="col-sm-3 col-form-label">Url</label>
+                       <div class="col-sm-9">
+                         <input type="text" name="setAuthorUrl" class="form-control">
+                       </div>
+                     </div>
+                  </div>
+               </div>
+               Images
+               <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Thumbnail-Url</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="setThumbnail" id="setThumbnail" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Image-Url</label>
+                        <div class="col-sm-9">
+                          <input type="text" name="setImage" id="setImage" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+               </div>
+               Footer
+               <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Text</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="setFooterText" id="setFooterText" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Date</label>
+                        <div class="col-sm-9">
+                          <input type="datetime-local" name="setTimestamp" id="setTimestamp" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Icon-Url</label>
+                          <div class="col-sm-9">
+                            <input type="text" name="setFooterIcon" id="setFooterIcon" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+               </div>
+
+          <div class="row">
+            <div class="col-sm">
+                Fields
+                <fleds id="dynamic_field">
+
+                <div class="form-group row">
+                      <div class="col-sm">
+                        <input type="text" name="fields_name[]" id="i_name_row1" class="form-control" placeholder="name">
+                      </div>
+                      <div class="col-sm">
+                          <input type="text" name="fields_value[]" id="i_value_row1" class="form-control" placeholder="value">
+                      </div>
+                      <div class="col-sm">
+                        <div class="form-group">
+                          <div class="form-check form-check-flat">
+                            <label class="form-check-label">
+                              <input type="checkbox" name="fields_inline[]" id="i_inline_row1" class="form-check-input" value="row1"> Inline
+                            <i class="input-helper"></i></label>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                </fleds>
+            </div>
+          </div>
+
+          <div class="row">
+              <div class="col-sm">
+                  <div class="form-group row">
+                    <button type="button" class="btn social-btn btn-success" name="add" id="add">
+                      <i class="mdi mdi-clipboard-plus"></i>
+                    </button>
+                </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+              <div class="col-sm">
+                  <div class="form-group row">
+                    <button type="submit" class="btn btn-success mr-2">Отправить</button>
+                    <button class="btn btn-success mr-2 btn-sm" type="button" data-container="body" class="btn btn-primary" data-path="2" data-toggle="modal" data-target="#PreviewEmbed">Предварительный просмотр</button>
+                  </div>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</form>

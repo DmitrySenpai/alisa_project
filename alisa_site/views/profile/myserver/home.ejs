@@ -1,0 +1,36 @@
+
+<div class="row">
+        <div class="col-lg-12 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title"><img class="img-sm rounded-circle mb-4 mb-md-0" src="<%=gulids_server_avatar(servergulids.id, servergulids.icon)%>" alt="image"> Настройки сервера - <%=servergulids.name%></h4>
+              <div class="icons-list row">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <a href="/profile?page=myserver&id=<%=req.query.id%>&setting=hello_and_goodbye"><i class="mdi mdi-message"></i>Приветсвие и прощайние</div></a>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <a href="/profile?page=myserver&id=<%=req.query.id%>&setting=log"><i class="mdi mdi-message-alert"></i>log журнал</div></a>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <a href="/profile?page=myserver&id=<%=req.query.id%>&setting=moderation"><i class="mdi mdi-cctv"></i>Модерация</div></a>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <a href="/profile?page=myserver&id=<%=req.query.id%>&setting=lvl_system"><i class="mdi mdi-rocket"></i>Система ЛВЛ</div></a>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <a href="/profile?page=myserver&id=<%=req.query.id%>&setting=cmd"><i class="mdi mdi-buffer"></i>Вкл/Выкл команды</div></a>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <a href="/profile?page=myserver&id=<%=req.query.id%>&setting=embed_generator"><i class="mdi mdi-package"></i>Embed Generator</div></a>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <a href="/profile?page=myserver&id=<%=req.query.id%>&setting=auto_role"><i class="mdi mdi-compass-outline"></i>Авто-роль и Авторизация</div></a>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <a href="/profile?page=myserver&id=<%=req.query.id%>&setting=voice"><i class="mdi mdi-microphone"></i>Войс-канал</div></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+   
+        
+        
+        
+        
+    
+      </div>

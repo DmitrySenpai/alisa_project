@@ -1,0 +1,93 @@
+<form method="POST">
+        <% if(req.query.status) { %>
+        <div class="row purchace-popup">
+                <div class="col-12">
+                  <span class="d-block d-md-flex align-items-center">
+                    <p><%- text_status_setting(req.query.status) %></p>
+
+                    <i class="mdi mdi-close popup-dismiss ml-auto"></i>
+                  </span>
+                </div>
+              </div>
+        <% } %>
+
+<div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+
+          <h4 class="card-title"><img class="img-sm rounded-circle mb-4 mb-md-0" src="<%=gulids_server_avatar(servergulids.id, servergulids.icon)%>" alt="image"> Настройки сервера - <%=servergulids.name%>
+
+            <a href="/profile?page=myserver&id=<%-req.query.id%>"><button type="button" class="btn btn-primary btn-fw float-right">Назад</button></a>
+            
+        </h4>
+
+        <h4 class="card-title">Авто-роль и авторизация</h4>
+        <form class="form-sample">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Выдать роль:</label>
+
+                <div class="col-sm-9">
+                <label class="col-sm-3 col-form-label">Доступные роли</label>
+                <select name="from[]" id="customSort" class="form-control" size="8" multiple="multiple">
+                <% role_list = discord.guilds.get(req.query.id).roles 
+                role_list.forEach(r=> { 
+                  if (r.id !== req.query.id && r.managed == false) {
+                    add = 0
+                    if (JSON.parse(server_setting.res[0].auto_role) == null) { add = 1 } else {
+                      if(JSON.parse(server_setting.res[0].auto_role).indexOf(r.id) == -1) add = 1
+                    }
+                    if(add == 1){
+                      %>
+                      <option value="<%-r.id%>"><%-client.entities.encode(r.name)%></option>
+                      <%
+                    }
+  
+  
+                  %>
+                  <%
+                }})
+                %>
+                </select>
+
+                <label class="col-sm-3 col-form-label">Добавлены роли</label>
+
+          
+
+              <select name="roles_auto_add[]" id="customSort_to" class="form-control" size="8" multiple="multiple">
+
+              <%
+              role_list.forEach(rs=> { 
+                if (rs.id !== req.query.id && rs.managed == false) {
+                  add_s = 0
+                  if (JSON.parse(server_setting.res[0].auto_role) == null) { add_s = 0 } else {
+                    if(JSON.parse(server_setting.res[0].auto_role).indexOf(rs.id) != -1) add_s = 1
+                  }
+
+                  if(add_s == 1){
+                    %>
+                    <option value="<%-rs.id%>"><%-client.entities.encode(rs.name)%></option>
+                    <%
+                  }
+                %>
+                <%
+              }})
+              %>
+
+              </select><br>
+              <button type="button" id="customSort_rightSelected" class="btn btn-primary btn-fw"><i class="mdi mdi-plus-box"></i>Добавить</button>
+              <button type="button" id="customSort_leftSelected" class="btn btn-danger btn-fw"><i class="mdi mdi-playlist-remove"></i> Удалить</button>
+
+
+              <p class="card-description">Примечание: если на серваке будет включена авторизация, то роль выдаст в том случае если пользователь пройдет авторизацию!</p>
+          </div>
+
+
+            <button type="submit" class="btn btn-success mr-2">Сохранить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,215 @@
+<form method="POST">
+        <% if(req.query.status) { %>
+        <div class="row purchace-popup">
+                <div class="col-12">
+                  <span class="d-block d-md-flex align-items-center">
+                    <p><%- text_status_setting(req.query.status) %></p>
+
+                    <i class="mdi mdi-close popup-dismiss ml-auto"></i>
+                  </span>
+                </div>
+              </div>
+        <% } %>
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+          <h4 class="card-title"><img class="img-sm rounded-circle mb-4 mb-md-0" src="<%=gulids_server_avatar(servergulids.id, servergulids.icon)%>" alt="image"> Настройки сервера - <%=servergulids.name%>
+            <a href="/profile?page=myserver&id=<%-req.query.id%>"><button type="button" class="btn btn-primary btn-fw float-right">Назад</button></a>
+          </h4>
+          <h4 class="card-title">Система ЛВЛ</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Основные настройки</h4>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" name="lvl_system" class="form-check-input" <% if (server_setting.res[0].lvl_system == 1) { %> checked <% } %>> Включить систему ЛВЛ
+                  <i class="input-helper"></i></label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Объявление об уровне</label>
+                  <select name="lvl_system_info" class="form-control">
+                    <option value="0" <% if (0 == server_setting.res[0].lvl_system) {%>selected<% } %>>Выключить</option>
+                    <option value="1" <% if (1 == server_setting.res[0].lvl_system) {%>selected<% } %>>Текущий канал</option>
+                    <%
+                    //selected
+                        channel_list = discord.guilds.get(req.query.id).channels.filter(ch => ch.type == 'text')
+                        channel_list.forEach(ch=> { 
+                          if (ch.id == server_setting.res[0].lvl_system) {
+                            %>
+                            <option value="<%-ch.id%>" selected><%-client.entities.encode(ch.name)%></option>
+                    <%
+                          } else {
+                    %>
+                            <option value="<%-ch.id%>"><%-client.entities.encode(ch.name)%></option>
+                    <%
+                          }
+                        })
+                    %>
+                  </select>
+              </div>
+
+              <div class="form-group">
+                  <label>Время на удление (сек.) [Лимит до 180]</label>
+                    <input type="text" name="lvl_system_msg_del" class="form-control" value="<%-server_setting.res[0].lvl_system_msg_del;%>">
+                </div>
+
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <!-- <h4 class="card-title">Игнорировать роли</h4> -->
+            <div class="row">
+              <div class="col-sm">
+                
+                  <h4 class="card-title"><b>Игнорировать роли</b></h4>
+
+                      <label>Доступные роли</label>
+                         <select name="from[]" id="customSort1" class="form-control" size="8" multiple="multiple">
+                         <% role_list = discord.guilds.get(req.query.id).roles 
+                         role_list.forEach(r=> { 
+                           if (r.id !== req.query.id && r.managed == false) {
+                             add = 0
+                             if (JSON.parse(server_setting.res[0].lvl_system_ignore_roles) == null) { add = 1 } else {
+                               if(JSON.parse(server_setting.res[0].lvl_system_ignore_roles).indexOf(r.id) == -1) add = 1
+                             }
+                             if(add == 1){
+                               %>
+                               <option value="<%-r.id%>"><%-client.entities.encode(r.name)%></option>
+                               <%
+                             }
+           
+           
+                           %>
+                           <%
+                         }})
+                         %>
+                         </select>
+           
+                     
+                     
+                        <label>Добавлены роли</label>
+           
+                     
+           
+                         <select name="lvl_system_ignore_roles[]" id="customSort1_to" class="form-control" size="8" multiple="multiple">
+           
+                         <%
+                         role_list.forEach(rs=> { 
+                           if (rs.id !== req.query.id && rs.managed == false) {
+                             add_s = 0
+                             if (JSON.parse(server_setting.res[0].lvl_system_ignore_roles) == null) { add_s = 0 } else {
+                               if(JSON.parse(server_setting.res[0].lvl_system_ignore_roles).indexOf(rs.id) != -1) add_s = 1
+                             }
+           
+                             if(add_s == 1){
+                               %>
+                               <option value="<%-rs.id%>"><%-client.entities.encode(rs.name)%></option>
+                               <%
+                             }
+                           %>
+                           <%
+                         }})
+                         %>
+           
+                         </select><br>
+                     <button type="button" id="customSort1_rightSelected" class="btn btn-primary btn-fw"><i class="mdi mdi-plus-box"></i>Добавить</button>
+                     <button type="button" id="customSort1_leftSelected" class="btn btn-danger btn-fw"><i class="mdi mdi-playlist-remove"></i> Удалить</button>
+                     <hr>
+
+
+              </div>
+
+              <div class="col-sm">
+                
+                  <h4 class="card-title"><b>Игнорировать каналы</b></h4>
+
+                      <label>Доступные каналы</label>
+                         <select name="from[]" id="customSort2" class="form-control" size="8" multiple="multiple">
+                         <% channel_list = discord.guilds.get(req.query.id).channels.filter(ch => ch.type == 'text')
+                         channel_list.forEach(r=> { 
+                           if (r.id !== req.query.id) {
+                             addr = 0
+                             if (JSON.parse(server_setting.res[0].lvl_system_ignore_channel) == null) { addr = 1 } else {
+                               if(JSON.parse(server_setting.res[0].lvl_system_ignore_channel).indexOf(r.id) == -1) addr = 1
+                             }
+                             if(addr == 1){
+                               %>
+                               <option value="<%-r.id%>"><%-client.entities.encode(r.name)%></option>
+                               <%
+                             }
+           
+           
+                           %>
+                           <%
+                         }})
+                         %>
+                         </select>
+           
+                     
+                     
+                        <label>Добавлены каналы</label>
+           
+                     
+           
+                         <select name="lvl_system_ignore_channel[]" id="customSort2_to" class="form-control" size="8" multiple="multiple">
+           
+                         <%
+                         channel_list.forEach(rs=> { 
+                           if (rs.id !== req.query.id) {
+                             add_r = 0
+                             if (JSON.parse(server_setting.res[0].lvl_system_ignore_channel) == null) { add_r = 0 } else {
+                               if(JSON.parse(server_setting.res[0].lvl_system_ignore_channel).indexOf(rs.id) != -1) add_r = 1
+                             }
+           
+                             if(add_r == 1){
+                               %>
+                               <option value="<%-rs.id%>"><%-client.entities.encode(rs.name)%></option>
+                               <%
+                             }
+                           %>
+                           <%
+                         }})
+                         %>
+           
+                         </select><br>
+                     <button type="button" id="customSort2_rightSelected" class="btn btn-primary btn-fw"><i class="mdi mdi-plus-box"></i>Добавить</button>
+                     <button type="button" id="customSort2_leftSelected" class="btn btn-danger btn-fw"><i class="mdi mdi-playlist-remove"></i> Удалить</button>
+                     <hr>
+
+
+              </div>
+
+            </div>
+        </div>
+      </div>
+    </div>
+  
+
+
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+          <div class="row">
+            <button type="submit" class="btn btn-success mr-2">Сохранить</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>

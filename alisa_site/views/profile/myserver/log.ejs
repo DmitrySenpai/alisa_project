@@ -1,0 +1,120 @@
+<%
+json_log_opption = JSON.parse(server_setting.res[0].log)
+if (json_log_opption == null) {
+  channel = 0
+  log_new_user = 0
+  log_leave_user = 0
+  log_new_user_auth = 0
+  log_user_spam_inv = 0
+  log_warns = 0
+} else {
+  channel = JSON.parse(server_setting.res[0].log)[0].channel
+  log_new_user = JSON.parse(server_setting.res[0].log)[0].log_new_user
+  log_leave_user = JSON.parse(server_setting.res[0].log)[0].log_leave_user
+  log_new_user_auth = JSON.parse(server_setting.res[0].log)[0].log_new_user_auth
+  log_user_spam_inv = JSON.parse(server_setting.res[0].log)[0].log_user_spam_inv
+  log_warns = JSON.parse(server_setting.res[0].log)[0].log_warns
+}
+%>
+<form method="POST">
+        <% if(req.query.status) { %>
+        <div class="row purchace-popup">
+                <div class="col-12">
+                  <span class="d-block d-md-flex align-items-center">
+                    <p><%- text_status_setting(req.query.status) %></p>
+
+                    <i class="mdi mdi-close popup-dismiss ml-auto"></i>
+                  </span>
+                </div>
+              </div>
+        <% } %>
+
+<div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+
+          <h4 class="card-title"><img class="img-sm rounded-circle mb-4 mb-md-0" src="<%=gulids_server_avatar(servergulids.id, servergulids.icon)%>" alt="image"> Настройки сервера - <%=servergulids.name%>
+
+            <a href="/profile?page=myserver&id=<%-req.query.id%>"><button type="button" class="btn btn-primary btn-fw float-right">Назад</button></a>
+            
+        </h4>
+
+        <h4 class="card-title">Log журнал</h4>
+        <form class="form-sample">
+          <div class="row">
+            <div class="col-md-6">
+
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Канал</label>
+                <div class="col-sm-9">
+                  <select name="channel" class="form-control">
+                    <option value="0"></option>
+                    <%
+                    //selected
+                        channel_list = discord.guilds.get(req.query.id).channels.filter(ch => ch.type == 'text')
+                        channel_list.forEach(ch=> { 
+                          if (ch.id == channel) {
+                            %>
+                            <option value="<%-ch.id%>" selected><%-client.entities.encode(ch.name)%></option>
+                    <%
+                          } else {
+                    %>
+                            <option value="<%-ch.id%>"><%-client.entities.encode(ch.name)%></option>
+                    <%
+                          }
+                        })
+                    %>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="log_new_user" class="form-check-input" <% if (log_new_user == 1) { %> checked <% } %>> Новый пользователь
+                      <i class="input-helper"></i></label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="log_leave_user" class="form-check-input" <% if (log_leave_user == 1) { %> checked <% } %>> Пользователь покинул
+                      <i class="input-helper"></i></label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="log_new_user_auth" class="form-check-input" <% if (log_new_user_auth == 1) { %> checked <% } %>> Пользователь прошел авторизацию
+                      <i class="input-helper"></i></label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="log_user_spam_inv" class="form-check-input" <% if (log_user_spam_inv == 1) { %> checked <% } %>> Пользователь рекламирует инвайт ссылками
+                      <i class="input-helper"></i></label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="log_warns" class="form-check-input" <% if (log_warns == 1) { %> checked <% } %>> Варны
+                      <i class="input-helper"></i></label>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+          </div>
+
+
+          <div class="row">
+            <button type="submit" class="btn btn-success mr-2">Сохранить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</form>

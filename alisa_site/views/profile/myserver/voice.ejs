@@ -1,0 +1,153 @@
+<form method="POST">
+        <% if(req.query.status) { %>
+        <div class="row purchace-popup">
+                <div class="col-12">
+                  <span class="d-block d-md-flex align-items-center">
+                    <p><%- text_status_setting(req.query.status) %></p>
+
+                    <i class="mdi mdi-close popup-dismiss ml-auto"></i>
+                  </span>
+                </div>
+              </div>
+        <% } %>
+<div class="row">
+<div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+
+          <h4 class="card-title"><img class="img-sm rounded-circle mb-4 mb-md-0" src="<%=gulids_server_avatar(servergulids.id, servergulids.icon)%>" alt="image"> Настройки сервера - <%=servergulids.name%>
+
+            <a href="/profile?page=myserver&id=<%-req.query.id%>"><button type="button" class="btn btn-primary btn-fw float-right">Назад</button></a>
+            
+        </h4>
+
+        <h4 class="card-title">Войс каналы</h4>
+      </div>
+    </div>
+  </div>
+
+
+<div class="col-md-6 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Роль для участников в войсе</h4>
+      <p class="card-description">Роль выдается если участник пристсувет в войсе.</p>
+      <select class="form-control" name="voice_role">
+          <option value="0">не выдавать</option>
+        <% role_list = discord.guilds.get(req.query.id).roles 
+        role_list.forEach(r=> { 
+          if (r.id !== req.query.id && r.managed == false) {
+            if(r.id == server_setting.res[0].voice_role){
+              %>
+              <option value="<%-r.id%>" selected><%-client.entities.encode(r.name)%></option>
+              <%
+            } else {
+          %>
+          <option value="<%-r.id%>"><%-client.entities.encode(r.name)%></option>
+          <%
+        }}})
+        %>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Личные войс каналы</h4>
+        <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Канал для создание войсов</label>
+        <div class="col-sm-9">
+        <select name="channel" class="form-control">
+            <option value="0">Выключить</option>
+            <%
+            //selected
+                channel_list = discord.guilds.get(req.query.id).channels.filter(ch => ch.type == 'voice')
+                channel_list.forEach(ch=> { 
+                    %>
+                    <option value="<%-ch.id%>" <% if (ch.id == server_setting.res[0].voice_create) {%>selected<% } %>><%-ch.name%></option>
+                    <%
+                })
+            %>
+          </select></div></div>
+
+          <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" name="voice_owner_permission" class="form-check-input" <% if (server_setting.res[0].voice_owner_permission == 1) { %> checked <% } %>> Разрешить владельцам изменять войс канал
+              <i class="input-helper"></i></label>
+          </div>
+
+          <hr>
+          Дать доступ определенном ролям:<div class="col-sm-9">
+           <label class="col-sm-3 col-form-label">Доступные роли</label>
+              <select name="from[]" id="customSort" class="form-control" size="8" multiple="multiple">
+              <% role_list = discord.guilds.get(req.query.id).roles 
+              role_list.forEach(r=> { 
+                if (r.id !== req.query.id && r.managed == false) {
+                  add = 0
+                  if (JSON.parse(server_setting.res[0].voice_create_roles) == null) { add = 1 } else {
+                    if(JSON.parse(server_setting.res[0].voice_create_roles).indexOf(r.id) == -1) add = 1
+                  }
+                  if(add == 1){
+                    %>
+                    <option value="<%-r.id%>"><%-client.entities.encode(r.name)%></option>
+                    <%
+                  }
+
+
+                %>
+                <%
+              }})
+              %>
+              </select>
+
+          
+          
+             <label class="col-sm-3 col-form-label">Добавлены роли</label>
+
+          
+
+              <select name="roles_voice_create[]" id="customSort_to" class="form-control" size="8" multiple="multiple">
+
+              <%
+              role_list.forEach(rs=> { 
+                if (rs.id !== req.query.id && rs.managed == false) {
+                  add_s = 0
+                  if (JSON.parse(server_setting.res[0].voice_create_roles) == null) { add_s = 0 } else {
+                    if(JSON.parse(server_setting.res[0].voice_create_roles).indexOf(rs.id) != -1) add_s = 1
+                  }
+
+                  if(add_s == 1){
+                    %>
+                    <option value="<%-rs.id%>"><%-client.entities.encode(rs.name)%></option>
+                    <%
+                  }
+                %>
+                <%
+              }})
+              %>
+
+              </select><br>
+          <p>Если в списке будет пристустовать одна роль, то автоматом становится запрет к войсам на @everyone!</p>
+          <button type="button" id="customSort_rightSelected" class="btn btn-primary btn-fw"><i class="mdi mdi-plus-box"></i>Добавить</button>
+          <button type="button" id="customSort_leftSelected" class="btn btn-danger btn-fw"><i class="mdi mdi-playlist-remove"></i> Удалить</button></div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+<div class="col-12 grid-margin">
+   <div class="card">
+     <div class="card-body">
+         <div class="row">
+            <button type="submit" class="btn btn-success mr-2">Сохранить</button>
+          </div>
+     </div>
+   </div>
+ </div>
+
+
+</div></form>

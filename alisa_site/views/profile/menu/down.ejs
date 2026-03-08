@@ -1,0 +1,97 @@
+<%- include("./footer.ejs") %>
+</div>
+<!-- partial -->
+</div>
+<!-- main-panel ends -->
+</div>
+<!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+
+<!-- plugins:js -->
+<script src="vendors/js/vendor.bundle.base.js"></script>
+<script src="vendors/js/vendor.bundle.addons.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script src="js/off-canvas.js"></script>
+<script src="js/misc.js"></script>
+<script src="js/jquery.min.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="js/dashboard.js"></script>
+<!-- End custom js for this page-->
+
+<script type="text/javascript" src="/js/multiselect.min.js"></script>
+
+<% if (req.query.page == 'myserver' && req.query.setting == 'lvl_system') {%>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $('#customSort1').multiselect({
+        sort: {
+            left: function(a, b) {
+                return a.value > b.value ? 1 : -1;
+            },
+            right: function(a, b) {
+                return a.value > b.value ? -1 : 1;
+            }
+        }
+    });
+});
+</script>
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $('#customSort2').multiselect({
+            sort: {
+                left: function(a, b) {
+                    return a.value > b.value ? 1 : -1;
+                },
+                right: function(a, b) {
+                    return a.value > b.value ? -1 : 1;
+                }
+            }
+        });
+    });
+    </script>
+<% } %>
+
+<% if (req.query.page == 'myserver' && req.query.setting == 'voice'|| req.query.page == 'myserver' && req.query.setting == 'auto_role') {%>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $('#customSort').multiselect({
+        sort: {
+            left: function(a, b) {
+                return a.value > b.value ? 1 : -1;
+            },
+            right: function(a, b) {
+                return a.value > b.value ? -1 : 1;
+            }
+        }
+    });
+});
+</script>
+<% } %>
+<% if (req.query.page == 'myserver' && req.query.setting == 'embed_generator') {%>
+<script>$(function () { $('#color-picker-alias').colorpicker(); });</script>
+<script>  
+$(document).ready(function(){  
+     var i=1;  
+     $('#add').click(function(){  
+          i++;  
+          $('#dynamic_field').append('<div class="form-group row" id="row'+ i +'"><div class="col-sm"><input type="text" id="i_name_row' + i + '" name="fields_name[]" class="form-control" placeholder="name"></div><div class="col-sm"><input type="text" name="fields_value[]" id="i_value_row'+ i +'" class="form-control" placeholder="value"></div><div class="col-sm"><div class="form-group"><div class="form-check form-check-flat"><label class="form-check-label"><input type="checkbox" name="fields_inline[]" id="i_inline_row'+ i +'" value="row'+ i +'" class="form-check-input"> Inline<i class="input-helper"></i></label></div></div></div><div class="col-sm"><button type="button" class="btn social-btn btn-danger btn_remove" name="remove" id="'+ i +'"><i class="mdi mdi-playlist-remove"></i></button></div></div>');
+          $('#dynamic_field_2').append('<div class="embed-field" id="row'+ i +'"><div class="embed-field-name" id="name_row'+ i +'">1</div><div class="embed-field-value markup" id="value_row'+ i +'">2</div></div>')
+     });  
+     $(document).on('click', '.btn_remove', function(){  
+          var button_id = $(this).attr("id");   
+          $('#row'+button_id+'').remove();  
+     });   
+});  
+</script>
+
+<script src="/modal.js"></script>
+<% } %>
+<script src="/bootstrap-colorpicker.js"></script>
+</body>
+
+</html>

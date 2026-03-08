@@ -1,0 +1,8 @@
+<% servergulids = gulids_server_get(user.guilds, req.query.id) %>
+
+<%- include("./menu/up.ejs") %>
+
+<%- include(page_setting_server(req.query.id, req.query.setting, user.id, discord)) %>
+
+
+<%- include("./menu/down.ejs") %>

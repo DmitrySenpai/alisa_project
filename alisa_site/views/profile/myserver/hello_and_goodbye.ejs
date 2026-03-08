@@ -1,0 +1,113 @@
+<form method="POST">
+        <% if(req.query.status) { %>
+        <div class="row purchace-popup">
+                <div class="col-12">
+                  <span class="d-block d-md-flex align-items-center">
+                    <p><%- text_status_setting(req.query.status) %></p>
+
+                    <i class="mdi mdi-close popup-dismiss ml-auto"></i>
+                  </span>
+                </div>
+              </div>
+        <% } %>
+
+<div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+
+          <h4 class="card-title"><img class="img-sm rounded-circle mb-4 mb-md-0" src="<%=gulids_server_avatar(servergulids.id, servergulids.icon)%>" alt="image"> Настройки сервера - <%=servergulids.name%>
+
+            <a href="/profile?page=myserver&id=<%-req.query.id%>"><button type="button" class="btn btn-primary btn-fw float-right">Назад</button></a>
+            
+        </h4>
+
+        <h4 class="card-title">Приветсвие и прощайние</h4>
+        <form class="form-sample">
+          <div class="row">
+            <div class="col-md-6">
+                <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" name="hello_on" class="form-check-input" <% if (server_setting.res[0].say_hello_on == 1) { %> checked <% } %>> Включить приветсвие
+                    <i class="input-helper"></i></label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" name="hello_bye" class="form-check-input" <% if (server_setting.res[0].say_bye_off == 1) { %> checked <% } %>> Включить прощайние
+                    <i class="input-helper"></i></label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" name="temp_msg_on" class="form-check-input" <% if (server_setting.res[0].msg_hi_goodbye_del == 1) { %> checked <% } %>> Включить временное собщение
+                    <i class="input-helper"></i></label>
+                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Время на удление (сек.) [Лимит до 180]</label>
+                <div class="col-sm-9">
+                  <input type="text" name="temp_msg" class="form-control" value="<%-server_setting.res[0].temp_msg_del;%>">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Канал</label>
+                <div class="col-sm-9">
+                  <select name="channel" class="form-control">
+                    <option value="0"></option>
+                    <%
+                    //selected
+                        channel_list = discord.guilds.get(req.query.id).channels.filter(ch => ch.type == 'text')
+                        channel_list.forEach(ch=> { 
+                          if (ch.id == server_setting.res[0].hi_bye_ch) {
+                            %>
+                            <option value="<%-ch.id%>" selected><%-client.entities.encode(ch.name)%></option>
+                    <%
+                          } else {
+                    %>
+                            <option value="<%-ch.id%>"><%-client.entities.encode(ch.name)%></option>
+                    <%
+                          }
+                        })
+                    %>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Текст приветсвие</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" name="text_hello" rows="4"><%-client.entities.encode(server_setting.res[0].say_hello);%></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Текст прощайние</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" name="text_bye" rows="4"><%-client.entities.encode(server_setting.res[0].say_bye);%></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group row">
+                <p>Формат:<br>{name} - Вывод UserTag</p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <button type="submit" class="btn btn-success mr-2">Сохранить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</form>

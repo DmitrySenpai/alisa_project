@@ -1,0 +1,53 @@
+<form method="POST">
+    <% if(req.query.status) { %>
+    <div class="row purchace-popup">
+            <div class="col-12">
+              <span class="d-block d-md-flex align-items-center">
+                <p><%- text_status_setting(req.query.status) %></p>
+
+                <i class="mdi mdi-close popup-dismiss ml-auto"></i>
+              </span>
+            </div>
+          </div>
+    <% } %>
+
+<div class="col-12 grid-margin">
+<div class="card">
+  <div class="card-body">
+
+      <h4 class="card-title"><img class="img-sm rounded-circle mb-4 mb-md-0" src="<%=gulids_server_avatar(servergulids.id, servergulids.icon)%>" alt="image"> Настройки сервера - <%=servergulids.name%>
+
+        <a href="/profile?page=myserver&id=<%-req.query.id%>"><button type="button" class="btn btn-primary btn-fw float-right">Назад</button></a>
+        
+    </h4>
+
+    <h4 class="card-title">Модерация</h4>
+    <form class="form-sample">
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" name="moderation_antiInvite" class="form-check-input" <% if (server_setting.res[0].moderation_antiInvite == 1) { %> checked <% } %>> Включить анти ссылки discord.gg
+                <i class="input-helper"></i></label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" name="moderation_warn" class="form-check-input" <% if (server_setting.res[0].moderation_warn == 1) { %> checked <% } %>> Отправлять WARN за нарушение
+              <i class="input-helper"></i></label>
+            </div>
+            <div class="form-group">
+              <label>Отправить в бан при максимальном количестве WARN (при значении 0 в бан не кидает!)</label>
+              <input type="text" class="form-control" name="moderation_maxwarn_ban_count" value="<%- server_setting.res[0].moderation_maxwarn_ban_count %>">
+            </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <button type="submit" class="btn btn-success mr-2">Сохранить</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+</form>

@@ -1,0 +1,17 @@
+{
+    "mysql_host": "localhost",
+    "mysql_port": "3306",
+    "mysql_user": "root",
+    "mysql_password": "root",
+    "mysql_database": "testbotalisa",
+    "mysql_charset": "utf8mb4",
+
+    "clientId": "clientId",
+    "clientSecret": "clientSecret",
+    "scopes": ["identify", "guilds"],
+    "redirectUri": "http://127.0.0.1:8080/login/callback",
+
+    "siteweb_port": 8080,
+
+    "bot_token": "token"
+}
