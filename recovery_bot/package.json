@@ -1,0 +1,14 @@
+{
+	"private": true,
+	"dependencies": {
+		"canvas": "latest",
+		"discord.js": "latest",
+		"ffbinaries": "latest",
+		"fs": "latest",
+		"node-html-parser": "latest",
+		"node-opus": "^0.3.1",
+		"request": "latest",
+		"rss-parser": "latest",
+		"ytdl-core": "^0.20.4"
+	}
+}

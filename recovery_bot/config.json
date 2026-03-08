@@ -1,0 +1,13 @@
+{
+    "token": "token",
+    "prefix": "b!",
+    "ownerID": [
+        "1111111111111111"
+    ],
+    "web_id": "webhook_id",
+    "web_token": "webhook_token",
+    "myslq_host": "localhost",
+    "myslq_user": "root",
+    "myslq_password": "",
+    "myslq_database": "bot_dv"
+}
